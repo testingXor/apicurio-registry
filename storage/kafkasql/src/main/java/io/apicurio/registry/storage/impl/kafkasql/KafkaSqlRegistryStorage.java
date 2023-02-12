@@ -446,7 +446,20 @@ public class KafkaSqlRegistryStorage extends AbstractRegistryStorage {
         UUID reqId = ConcurrentUtil.get(submitter.submitArtifact(tenantContext.tenantId(), groupId, artifactId, ActionType.DELETE));
         List<String> versionIds = (List<String>) coordinator.waitForResponse(reqId);
 
-        // Add tombstone messages for all version metda-data updates
+        /* ********OpenRefactory Warning********
+		 Possible null pointer dereference!
+		 Path: 
+			File: KafkaSqlRegistryStorage.java, Line: 447
+				List<String> versionIds=(List<String>)coordinator.waitForResponse(reqId);
+		
+			File: KafkaSqlRegistryStorage.java, Line: 450
+				versionIds.forEach(vid -> {
+				  submitter.submitArtifactVersionTombstone(tenantContext.tenantId(),groupId,artifactId,vid);
+				}
+				);
+				versionIds is referenced in method invocation.
+		*/
+		// Add tombstone messages for all version metda-data updates
         versionIds.forEach(vid -> {
             submitter.submitArtifactVersionTombstone(tenantContext.tenantId(), groupId, artifactId, vid);
         });

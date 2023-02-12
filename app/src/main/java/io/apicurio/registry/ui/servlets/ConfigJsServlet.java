@@ -48,13 +48,13 @@ public class ConfigJsServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1624928159818173418L;
 
-    @Inject
+    static @Inject
     UiConfigProperties uiConfig;
 
-    @Inject
+    static @Inject
     SecurityIdentity identity;
 
-    @Inject
+    static @Inject
     AuthConfig authConfig;
 
     /**

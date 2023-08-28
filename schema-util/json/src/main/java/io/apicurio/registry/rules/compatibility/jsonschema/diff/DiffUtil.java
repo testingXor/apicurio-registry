@@ -183,8 +183,27 @@ public class DiffUtil {
             original = null;
         if (Objects.equals(defaultValue, updated))
             updated = null;
-        if (diffAddedRemoved(ctx, original, updated, addedType, removedType)
-            && !original.equals(updated)) {
+        /* ********OpenRefactory Warning********
+		 Possible null pointer dereference!
+		 Path: 
+			File: DiffUtil.java, Line: 180
+				Object original
+				Variable original is declared as a formal parameter.
+			File: DiffUtil.java, Line: 183
+				original=null;
+				Variable original is assigned null.
+			File: DiffUtil.java, Line: 187
+				original.equals(updated)
+				original is referenced in method invocation.
+				The expression is enclosed inside an If statement.
+		 Fix:
+				original is identified as null.
+				iCR fixes by adding a null check to guard the 
+				call to equals method. 
+		
+		*/
+		if (diffAddedRemoved(ctx, original, updated, addedType, removedType)
+            && original != null && !original.equals(updated)) {
             ctx.addDifference(changedType, original, updated);
         }
     }

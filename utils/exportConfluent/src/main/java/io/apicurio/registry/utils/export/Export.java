@@ -176,7 +176,12 @@ public class Export implements QuarkusApplication {
 
     public SSLSocketFactory getInsecureSSLSocketFactory() {
         try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
+            
+			/* ********OpenRefactory Warning********
+			 TLS version set to 1.3 
+			 Lower the TLS version, if the code is compiled with JDK7 or lower
+			*/
+			SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
             sslContext.init(null, new TrustManager[]{new FakeTrustManager()}, new SecureRandom());
             return sslContext.getSocketFactory();
         } catch (Exception ex) {
